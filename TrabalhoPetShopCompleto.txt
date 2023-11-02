@@ -1,0 +1,281 @@
+package metodojava;
+
+import java.util.ArrayList; //serve para habilitar o uso da estrutura de dados ArrayList em seu programa.
+                            //O ArrayList é uma implementação da interface List em Java que fornece uma maneira flexível de armazenar e manipular coleções de objetos.
+import javax.swing.JOptionPane;
+                            //javax.swing.JOptionPane em Java serve para permitir o uso das caixas de diálogo fornecidas pela biblioteca Swing para interação com o usuário em aplicativos de interface gráfica (GUI)
+                            //Mais especificamente, JOptionPane fornece uma maneira simples e padronizada de exibir caixas de diálogo para coletar entrada do usuário, exibir mensagens, alertas e muito mais.
+public class petshop {
+    public static void main(String[] args) {
+
+        //strings 
+        String[] nomesClientes = new String[100];//ajustavel
+        String[] enderecosClientes = new String[100];//ajustavel
+        String[] telefonesClientes = new String[100];//ajustavel
+        String[] infosContatoClientes = new String[100];//ajustavel
+        int numClientes = 0;
+
+        String[] nomesAnimais = new String[100];//ajustavel
+        String[] especiesAnimais = new String[100];//ajustavel
+        String[] racasAnimais = new String[100];//ajustavel
+        int[] idadesAnimais = new int[100];//ajustavel
+        String[] historicosMedicosAnimais = new String[100];//ajustavel
+        int[] donosAnimais = new int[100];//ajustavel
+        int numAnimais = 0;
+
+        ArrayList<String> servicosPrestados = new ArrayList<>(); //Este ArrayList armazena nomes de serviços o petshop oferece.
+        ArrayList<Double> precosServicos = new ArrayList<>(); //Este ArrayList armazena os preços correspondentes aos serviços listados em servicosPrestados.
+        ArrayList<String> consultasAgendadas = new ArrayList<>(); // Este ArrayList é usado para manter um registro das datas em que consultas ou serviços foram agendados.
+        ArrayList<String> horariosAgendados = new ArrayList<>(); // Este ArrayList é usado para registrar os horários em que as consultas ou serviços foram agendados. 
+        ArrayList<Integer> clientesAgendados = new ArrayList<>(); // Este ArrayList é usado para armazenar informações sobre os clientes que agendaram serviços. 
+        ArrayList<String> servicosAgendados = new ArrayList<>(); // Este ArrayList armazena os serviços específicos que foram agendados para cada cliente.
+
+        double faturamentoTotal = 0;
+
+        String[] nomesServicos = {
+            "Tosa Higiênica",
+            "Desembolo",
+            "Tosa na Máquina",
+            "Tosa na Tesoura",
+            "Corte de Unha",
+            "Escovação de Dentes"
+        };
+
+        double[] precos = {
+            100,
+            85,
+            150,
+            160,
+            50,
+            35
+        };
+
+        while (true) {
+            int opcao = Integer.parseInt(JOptionPane.showInputDialog(
+                    "Menu Principal:\n" +
+                            "1. Cadastro de Cliente\n" +
+                            "2. Cadastro de Animal de Estimação\n" +
+                            "3. Registro de Serviço Prestado\n" +
+                            "4. Agendamento de Consulta/Serviço\n" +
+                            "5. Faturamento\n" +
+                            "6. Relatórios\n" +
+                            "7. Sair"));
+
+            switch (opcao) {
+                case 1:
+                    if (numClientes < 100) {
+                        nomesClientes[numClientes] = JOptionPane.showInputDialog("Digite o nome do cliente:");
+                        //O valor digitado pelo usuário é então armazenado na array chamada nomesClientes, na posição especificada por numClientes. Isso permite que você capture o nome do cliente.
+                        enderecosClientes[numClientes] = JOptionPane.showInputDialog("Digite o endereço do cliente:");
+                        // O endereço inserido pelo usuário é armazenado no array enderecosClientes, na posição correspondente a numClientes.
+                        telefonesClientes[numClientes] = JOptionPane.showInputDialog("Digite o telefone do cliente:");
+                        // O número de telefone digitado pelo usuário é armazenado no array telefonesClientes, novamente na posição de numClientes.
+                        infosContatoClientes[numClientes] = JOptionPane.showInputDialog("Digite informações de contato do cliente:");
+                        //As informações inseridas são armazenadas no array infosContatoClientes, também na posição determinada por numClientes.
+
+                        // Agora, vamos cadastrar um animal para o cliente também
+                        nomesAnimais[numAnimais] = JOptionPane.showInputDialog("Digite o nome do animal:");
+                        especiesAnimais[numAnimais] = JOptionPane.showInputDialog("Digite a espécie do animal:");
+                        racasAnimais[numAnimais] = JOptionPane.showInputDialog("Digite a raça do animal:");
+                        idadesAnimais[numAnimais] = Integer.parseInt(JOptionPane.showInputDialog("Digite a idade do animal:"));
+                        historicosMedicosAnimais[numAnimais] = JOptionPane.showInputDialog("Digite o histórico médico do animal:");
+                        donosAnimais[numAnimais] = numClientes; // Vinculamos o animal ao cliente
+                        numAnimais++;
+
+                        numClientes++;
+                        JOptionPane.showMessageDialog(null, "Cliente e animal cadastrados com sucesso!");
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Limite de clientes atingido. Não é possível cadastrar mais clientes.");
+                    }
+                    break;
+                case 2:
+                    if (numClientes == 0) {
+                        JOptionPane.showMessageDialog(null, "Nenhum cliente cadastrado. Cadastre um cliente primeiro.");
+                    } else {
+                        int indiceCliente = Integer.parseInt(JOptionPane.showInputDialog("Selecione o cliente dono do animal: \n" + listarClientes(nomesClientes)));
+                        if (indiceCliente >= 0 && indiceCliente < numClientes) {
+                            //indiceCliente >= 0: Isso verifica se o valor da variável indiceCliente é maior ou igual a zero. Isso garante que o valor de indiceCliente seja positivo ou zero.
+                            //indiceCliente < numClientes: Isso verifica se o valor da variável indiceCliente é estritamente menor do que o valor da variável numClientes.
+                            nomesAnimais[numAnimais] = JOptionPane.showInputDialog("Digite o nome do animal:");
+                            especiesAnimais[numAnimais] = JOptionPane.showInputDialog("Digite a espécie do animal:");
+                            racasAnimais[numAnimais] = JOptionPane.showInputDialog("Digite a raça do animal:");
+                            idadesAnimais[numAnimais] = Integer.parseInt(JOptionPane.showInputDialog("Digite a idade do animal:"));
+                            historicosMedicosAnimais[numAnimais] = JOptionPane.showInputDialog("Digite o histórico médico do animal:");
+                            donosAnimais[numAnimais] = indiceCliente; // Associar o animal ao cliente correspondente
+                            numAnimais++;
+                            JOptionPane.showMessageDialog(null, "Animal de estimação cadastrado com sucesso!");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Cliente não encontrado. Digite um número válido.");
+                        }
+                    }
+                    break;
+                case 3:
+                    if (numClientes == 0) {
+                        JOptionPane.showMessageDialog(null, "Nenhum cliente cadastrado. Cadastre um cliente primeiro.");
+                    } else {
+                        int escolhaServico = Integer.parseInt(JOptionPane.showInputDialog(
+                                "Escolha um serviço:\n" + listarServicos(nomesServicos, precos)));
+
+                        if (escolhaServico >= 1 && escolhaServico <= nomesServicos.length) {
+                            //escolhaServico >= 1: Isso verifica se o valor da variável escolhaServico é maior ou igual a 1. 
+                            //Isso significa que escolhaServico deve ser um número igual ou maior que 1.
+                            //escolhaServico <= nomesServicos.length: Isso verifica se o valor da variável escolhaServico é menor ou igual ao tamanho da array nomesServicos.
+                            String servicoSelecionado = nomesServicos[escolhaServico - 1];
+                            double precoServico = precos[escolhaServico - 1];
+                            //percebe-se que está -1 porque ápos você registrar um serviços ele ira contabilizar na posição 0 é não na 1  
+
+                            servicosPrestados.add(servicoSelecionado);
+                            precosServicos.add(precoServico);
+                            faturamentoTotal += precoServico;
+
+                            JOptionPane.showMessageDialog(null, "Serviço registrado com sucesso. Faturamento atual: R$" + faturamentoTotal);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Opção de serviço inválida.");
+                        }
+                    }
+                    break;
+                case 4:
+                    if (numClientes == 0 || numAnimais == 0) {
+                        //numClientes == 0 || numAnimais == 0: Isso verifica se a variável numClientes é igual a zero 
+                        //ou se a variável numAnimais é igual a zero.
+                        JOptionPane.showMessageDialog(null, "Nenhum cliente ou animal cadastrado. Cadastre um cliente e um animal primeiro.");
+                    } else {
+                        int indiceCliente = Integer.parseInt(JOptionPane.showInputDialog("Selecione o cliente para agendar: \n" + listarClientes(nomesClientes)));
+                        if (indiceCliente >= 0 && indiceCliente < numClientes) {
+                            // Listar serviços disponíveis
+                            int escolhaServico = Integer.parseInt(JOptionPane.showInputDialog(
+                                    "Escolha um serviço para agendar:\n" + listarServicos(nomesServicos, precos)));
+
+                            if (escolhaServico >= 1 && escolhaServico <= nomesServicos.length) {
+                                //A propriedade length é usada em várias linguagens de programação, incluindo JavaScript e Java.
+                                //para determinar o tamanho de uma coleção de elementos, como um array, uma string ou outras estruturas de dados.
+                                // Em arrays: Em linguagens como JavaScript e Java, o length é usado para obter o número de elementos em um array. 
+                                //Por exemplo, em JavaScript:
+                                String dataAgendamento = JOptionPane.showInputDialog("Digite a data (dd/mm/yyyy):");
+                                String horarioAgendamento = JOptionPane.showInputDialog("Digite o horário (hh:mm):");
+                                String servicoAgendado = nomesServicos[escolhaServico - 1]; // Captura o serviço escolhido
+                                double precoServico = precos[escolhaServico - 1]; // Captura o preço do serviço escolhido
+
+                                // Atualizar registros
+                                consultasAgendadas.add(dataAgendamento);
+                                // O método add é usado para inserir um novo elemento no final de uma lista em Java.
+                                //está adicionando a variável dataAgendamento à lista consultasAgendadas.
+                                horariosAgendados.add(horarioAgendamento);
+                                clientesAgendados.add(indiceCliente);
+                                servicosAgendados.add(servicoAgendado);
+                                faturamentoTotal += precoServico; // Atualizar o faturamento
+
+                                JOptionPane.showMessageDialog(null, "Agendamento realizado com sucesso!");
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Opção de serviço inválida.");
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Cliente não encontrado. Digite um número válido.");
+                        }
+                    }
+                    break;
+                case 5:
+                    JOptionPane.showMessageDialog(null, "Faturamento total: R$" + faturamentoTotal);
+                    break;
+                case 6:
+                    int escolhaRelatorio = Integer.parseInt(JOptionPane.showInputDialog(
+                            "Relatórios:\n" +
+                                    "1. Lista de Clientes\n" +
+                                    "2. Lista de Animais\n" +
+                                    "3. Serviços Prestados\n" +
+                                    "4. Consultas Agendadas\n" +
+                                    "5. Faturamento\n" +
+                                    "Escolha um relatório:"));
+
+                    switch (escolhaRelatorio) {
+                        case 1:
+                            JOptionPane.showMessageDialog(null, listarClientes(nomesClientes));
+                            break;
+                        case 2:
+                            JOptionPane.showMessageDialog(null, listarAnimais(nomesAnimais, donosAnimais, nomesClientes));
+                            break;
+                        case 3:
+                            StringBuilder relatorioServicos = new StringBuilder("Serviços Prestados:\n");
+                            for (int i = 0; i < servicosPrestados.size(); i++) {
+                                //O método size() é uma função que está disponível em várias classes de coleções em Java, incluindo ArrayList, LinkedList e outras implementações de List.
+                                // A expressão servicosPrestados.size() que eu utulizei é usada para obter o tamanho (ou seja, o número de elementos) da coleção representada por servicosPrestados.
+                                relatorioServicos.append("Descrição: ").append(servicosPrestados.get(i)).append("\n");
+                                relatorioServicos.append("Preço: R$").append(precosServicos.get(i)).append("\n\n");
+                            }
+                            JOptionPane.showMessageDialog(null, relatorioServicos.toString());
+                            break;
+                        case 4:
+                            StringBuilder relatorioConsultas = new StringBuilder("Consultas Agendadas:\n");
+                            //StringBuilder chamada relatorioConsultas e inicializa com o título "Consultas Agendadas" seguido de uma quebra de linha (\n). 
+                            //O StringBuilder é usado para construir strings de forma eficaz, especialmente quando você precisa concatenar várias partes de uma string.
+                            for (int i = 0; i < consultasAgendadas.size(); i++) {
+                                int indiceClienteConsulta = clientesAgendados.get(i);
+                                //O método get é uma operação comum em programação que é usada para acessar um elemento específico em uma coleção, como uma lista, array, mapa ou outra estrutura de dados indexada. 
+                                //A finalidade principal do método get é recuperar o valor associado a uma posição ou chave específica dentro da coleção.                                                           
+                                String clienteConsulta = nomesClientes[indiceClienteConsulta];
+                                relatorioConsultas.append("Data: ").append(consultasAgendadas.get(i)).append("\n");
+                                relatorioConsultas.append("Horário: ").append(horariosAgendados.get(i)).append("\n");
+                                relatorioConsultas.append("Cliente: ").append(clienteConsulta).append("\n");
+                                relatorioConsultas.append("Serviço/Consulta: ").append(servicosAgendados.get(i)).append("\n\n");
+                                //O método .append é uma função que existe em várias classes de Java, incluindo a classe StringBuilder, StringBuffer, String, entre outras. 
+                                //A função principal do método
+                                //append() é adicionar, ou concatenar, dados a um objeto existente.
+                            }
+                            JOptionPane.showMessageDialog(null, relatorioConsultas.toString());
+                            break;
+                        case 5:
+                            JOptionPane.showMessageDialog(null, "Faturamento total: R$" + faturamentoTotal);
+                            break;
+                        default:
+                            JOptionPane.showMessageDialog(null, "Opção inválida.");
+                            break;
+                    }
+                    break;
+                case 7:
+                    JOptionPane.showMessageDialog(null, "Saindo do programa.");
+                    System.exit(0);
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Opção inválida. Tente novamente.");
+                    break;
+            }
+        }
+    }
+
+    public static String listarClientes(String[] nomesClientes) {
+        StringBuilder listaClientes = new StringBuilder("Clientes Cadastrados:\n");
+        for (int i = 0; i < nomesClientes.length; i++) {
+            if (nomesClientes[i] != null) {
+                //if (nomesClientes[i] != null): Esta condição verifica se o elemento na posição i da matriz nomesClientes não é nulo. Em outras palavras, verifica se existe um nome de cliente naquela posição.
+                listaClientes.append(i).append(". ").append(nomesClientes[i]).append("\n");
+                //.append("\n"): Adiciona uma quebra de linha para separar cada entrada na lista.
+                //.append(nomesClientes[i]): Adiciona o nome do cliente na posição i da matriz
+                //listaClientes.append(i): Adiciona o índice i da matriz nomesClientes à lista  
+            }
+        }
+        return listaClientes.toString();
+    }
+    public static String listarAnimais(String[] nomesAnimais, int[] donosAnimais, String[] nomesClientes) {
+        StringBuilder listaAnimais = new StringBuilder("Animais de Estimação:\n");
+        for (int i = 0; i < nomesAnimais.length; i++) {
+            if (nomesAnimais[i] != null) {
+                listaAnimais.append("Nome: ").append(nomesAnimais[i]).append("\n");
+                int indiceDono = donosAnimais[i];
+                String nomeDono = nomesClientes[indiceDono];
+                listaAnimais.append("Dono: ").append(nomeDono).append("\n\n");
+            }
+        }
+        return listaAnimais.toString();
+    }
+    public static String listarServicos(String[] nomesServicos, double[] precos) {
+        StringBuilder listaServicos = new StringBuilder("Serviços Disponíveis:\n");
+        for (int i = 0; i < nomesServicos.length; i++) {
+            listaServicos.append(i + 1).append(". ").append(nomesServicos[i]).append(" - R$").append(precos[i]).append("\n");
+        }
+        return listaServicos.toString();
+        //O return listaServicos.toString(); é usada para retornar uma representação em forma de string da lista listaServicos
+    }
+}
+
+
+
